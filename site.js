@@ -1,21 +1,90 @@
-const defaults={company:'AM Desentupidora',hero:'Serviços hidráulicos, elétricos e desentupimentos para residências, comércios, condomínios e empresas.',about:'Desentupimentos e manutenções hidráulicas e elétricas.',phone:'(63) 99264-8492',whatsapp:'(63) 99264-8492',email:'',address:'',cities:'Palmas e região',hours:'',social:'',cnpj:'',seoTitle:'AM Desentupidora | Hidráulica e Elétrica',seoDescription:'Serviços de desentupimento, hidráulica e elétrica. Solicite orçamento.',services:[['Desentupidora','Desentupimento rápido e eficiente para residências, empresas e condomínios.','🌀'],['Encanador','Serviços hidráulicos, reparos e instalações.','🚰'],['Eletricista','Instalações e reparos elétricos.','⚡'],['Caça vazamentos com geofone','Tecnologia para localizar vazamentos sem quebra desnecessária.','📟'],['Limpeza de caixa d’água','Mais saúde e segurança para sua água.','🛢️'],['Limpeza de placa solar','Mais eficiência para o seu sistema de energia solar.','☀️']].map((x,i)=>({id:'s'+i,title:x[0],description:x[1],icon:x[2],visible:true,order:i})),gallery:[],testimonials:[]};
-const serviceImages={
- 'Desentupimento de vasos sanitários':'/assets/vaso.jpg',
- 'Desentupimento de pias e ralos':'/assets/pia.jpg',
- 'Desentupimento de caixas de gordura':'/assets/caixa-gordura.jpg',
- 'Desentupimento de tubulações e esgoto':'/assets/esgoto.jpg',
- 'Manutenção hidráulica':'/assets/tubulacao.jpg',
- 'Conserto de vazamentos':'/assets/cano.jpg',
- 'Reparos elétricos':'/assets/hidrojateamento.jpg',
- 'Instalação de tomadas, chuveiros e luminárias':'/assets/ralo.jpg',
- 'Atendimento emergencial':'/assets/fossa.jpg'
+const defaults={
+  company:'AM Manutenção',
+  hero:'Soluções completas para sua casa, empresa ou condomínio.',
+  about:'Atendimento para necessidades de manutenção em residências, empresas e condomínios.',
+  phone:'(63) 99264-8492',
+  whatsapp:'(63) 99264-8492',
+  email:'',
+  address:'',
+  cities:'Palmas e região',
+  hours:'',
+  social:'',
+  cnpj:'',
+  seoTitle:'AM Manutenção | Desentupidora, hidráulica e elétrica em Palmas',
+  seoDescription:'AM Manutenção em Palmas e região. Desentupidora, serviços hidráulicos e elétricos, caça-vazamentos, limpeza de caixa d’água e placas solares.',
+  services:[
+    {id:'s0',title:'Desentupidora',description:'Desentupimento de pias, ralos, vasos sanitários, tubulações e redes de esgoto.',visible:true,order:0},
+    {id:'s1',title:'Encanador',description:'Serviços hidráulicos, reparos, instalações e manutenção de tubulações.',visible:true,order:1},
+    {id:'s2',title:'Eletricista',description:'Instalações, verificações e reparos elétricos residenciais e comerciais.',visible:true,order:2},
+    {id:'s3',title:'Caça-vazamentos com geofone',description:'Localização de vazamentos com equipamento apropriado, reduzindo quebras desnecessárias.',visible:true,order:3},
+    {id:'s4',title:'Limpeza de caixa d’água',description:'Limpeza para contribuir com a conservação e a qualidade da água armazenada.',visible:true,order:4},
+    {id:'s5',title:'Limpeza de placas solares',description:'Limpeza dos módulos para auxiliar na manutenção do desempenho do sistema.',visible:true,order:5}
+  ],
+  gallery:[],
+  testimonials:[]
 };
-const defaultGallery=[
- {title:'Desentupimento de esgoto',category:'Atendimento especializado',url:'/assets/esgoto.jpg'},
- {title:'Desentupimento de vaso',category:'Residencial',url:'/assets/vaso.jpg'},
- {title:'Desentupimento de pia',category:'Residencial e comercial',url:'/assets/pia.jpg'},
- {title:'Limpeza de caixa de gordura',category:'Manutenção preventiva',url:'/assets/caixa-gordura.jpg'},
- {title:'Desentupimento de tubulação',category:'Soluções profissionais',url:'/assets/tubulacao.jpg'},
- {title:'Hidrojateamento',category:'Alta pressão',url:'/assets/hidrojateamento.jpg'}
-];
-const storageKey='am_site_preview_v1';function load(){try{const x=JSON.parse(localStorage.getItem(storageKey)||'null');return x?{...defaults,...x}:structuredClone(defaults)}catch{return structuredClone(defaults)}}const data=load();data.phone ||= '(63) 99264-8492';data.whatsapp ||= '(63) 99264-8492';data.cities ||= 'Palmas e região';data.hero='Soluções completas para sua casa, empresa ou condomínio! Desentupidora, hidráulica, elétrica e manutenção especializada em Palmas e região.';function safe(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}const digits=s=>String(s||'').replace(/\D/g,'');function linkWA(message){return data.whatsapp&&digits(data.whatsapp).length>=10?'https://wa.me/'+(digits(data.whatsapp).startsWith('55')?'':'55')+digits(data.whatsapp)+(message?'?text='+encodeURIComponent(message):''):null}function boot(){document.getElementById('year').textContent=new Date().getFullYear();document.getElementById('hero-text').textContent=data.hero;document.title=data.seoTitle||defaults.seoTitle;document.querySelector('meta[name=description]').content=data.seoDescription||defaults.seoDescription;const grid=document.getElementById('service-grid'),select=document.getElementById('service-select');grid.innerHTML='';select.innerHTML='<option value="">Selecione um serviço</option>';data.services.filter(x=>x.visible).sort((a,b)=>a.order-b.order).forEach(x=>{const c=document.createElement('article');c.className='service-card';const img=serviceImages[x.title]||'/assets/tubulacao.jpg';c.innerHTML='<img class="service-image" loading="lazy" src="'+img+'" alt="'+safe(x.title)+'"><div class="service-body"><div class="service-icon">'+safe(x.icon||'🔧')+'</div><h3>'+safe(x.title)+'</h3><p>'+safe(x.description)+'</p><a href="#contato">Solicitar avaliação →</a></div>';grid.append(c);const o=document.createElement('option');o.value=x.title;o.textContent=x.title;select.append(o)});const g=document.getElementById('gallery-grid');const saved=data.gallery.filter(x=>x.visible);const items=saved.length?saved:defaultGallery;g.innerHTML=items.map(x=>'<article class="gallery-card"><img loading="lazy" src="'+safe(x.url)+'" alt="'+safe(x.title)+'"><div><h3>'+safe(x.title)+'</h3><p>'+safe(x.category||'Serviço AM')+'</p></div></article>').join('');const t=data.testimonials.filter(x=>x.visible);if(t.length){document.getElementById('depoimentos').hidden=false;document.getElementById('testimonial-grid').innerHTML=t.map(x=>'<article><div aria-label="'+Number(x.rating||5)+' estrelas">⭐ '+Number(x.rating||5)+'/5</div><p>“'+safe(x.text)+'”</p><strong>'+safe(x.name)+'</strong></article>').join('')}const area=[data.address,data.cities&&'Região: '+data.cities,data.hours&&'Horário: '+data.hours].filter(Boolean).join(' • ');if(area)document.getElementById('location-details').textContent=area;const info=[data.phone&&'Telefone: '+data.phone,data.whatsapp&&'WhatsApp: '+data.whatsapp,data.email&&'E-mail: '+data.email,data.hours&&'Horário: '+data.hours].filter(Boolean).join('\n');if(info)document.getElementById('contact-info').textContent=info;document.getElementById('footer-info').textContent=[data.phone,data.email,data.cities,data.hours,data.cnpj].filter(Boolean).join(' • ')||'Informações de contato em configuração.';document.querySelectorAll('.phone-link').forEach(a=>{if(data.phone){a.href='tel:+'+digits(data.phone);a.hidden=false}});document.querySelectorAll('.wa-link').forEach(a=>{const u=linkWA('Olá! Gostaria de solicitar um orçamento na AM Desentupidora.');if(u){a.href=u;a.target='_blank';a.rel='noopener noreferrer'}else{a.href='#contato';a.title='WhatsApp ainda não configurado'}});document.getElementById('quote-form').addEventListener('submit',async e=>{e.preventDefault();const f=new FormData(e.currentTarget),msg='Olá, AM Desentupidora! Gostaria de solicitar um orçamento.\nNome: '+f.get('name')+'\nTelefone: '+f.get('phone')+'\nWhatsApp: '+(f.get('whatsapp')||'Não informado')+'\nLocal: '+f.get('location')+'\nServiço: '+f.get('service')+'\nProblema: '+f.get('description');const u=linkWA(msg),status=document.getElementById('form-status');if(u){status.textContent='Solicitação preparada! Abrindo o WhatsApp. Se anexou foto ou vídeo, envie-o na conversa.';window.open(u,'_blank','noopener,noreferrer')}else{try{await navigator.clipboard.writeText(msg);status.textContent='Solicitação preparada e copiada! O WhatsApp da empresa ainda não foi configurado. Nenhum pedido foi registrado no site.'}catch{status.textContent='Solicitação preparada (não enviada):\n'+msg}}})}document.addEventListener('DOMContentLoaded',boot);
+const storageKey='am_site_preview_v1';
+function loadData(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
+    if(!saved)return structuredClone(defaults);
+    return {...defaults,...saved,services:Array.isArray(saved.services)&&saved.services.length?saved.services:defaults.services};
+  }catch{return structuredClone(defaults)}
+}
+const data=loadData();
+const digits=value=>String(value||'').replace(/\D/g,'');
+function whatsappUrl(message=''){
+  const number=digits(data.whatsapp||defaults.whatsapp);
+  if(number.length<10)return null;
+  const international=number.startsWith('55')?number:'55'+number;
+  return 'https://wa.me/'+international+(message?'?text='+encodeURIComponent(message):'');
+}
+function safe(value){
+  return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+function renderServices(){
+  const grid=document.getElementById('service-grid');
+  const select=document.getElementById('service-select');
+  const services=(data.services||defaults.services).filter(item=>item.visible!==false).sort((a,b)=>(a.order||0)-(b.order||0));
+  grid.innerHTML=services.map((item,index)=>'<article class="service-card"><div class="service-card-top"><span class="service-number">'+String(index+1).padStart(2,'0')+'</span><span class="service-rule"></span></div><h3>'+safe(item.title)+'</h3><p>'+safe(item.description)+'</p><a href="#contato" class="service-link" data-service="'+safe(item.title)+'">Solicitar este serviço <span aria-hidden="true">↗</span></a></article>').join('');
+  select.innerHTML='<option value="">Selecione uma opção</option>'+services.map(item=>'<option value="'+safe(item.title)+'">'+safe(item.title)+'</option>').join('');
+  grid.querySelectorAll('[data-service]').forEach(link=>link.addEventListener('click',()=>{
+    select.value=link.dataset.service;
+  }));
+}
+function setupContact(){
+  const number=digits(data.phone||defaults.phone);
+  document.querySelectorAll('.phone-link').forEach(link=>link.href='tel:+'+(number.startsWith('55')?number:'55'+number));
+  document.querySelectorAll('.whatsapp-link').forEach(link=>{
+    const url=whatsappUrl('Olá! Gostaria de solicitar um orçamento com a AM Manutenção.');
+    if(url){link.href=url;link.target='_blank';link.rel='noopener noreferrer';}
+  });
+  const form=document.getElementById('quote-form');
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const values=new FormData(form);
+    const message=[
+      'Olá! Gostaria de solicitar um orçamento com a AM Manutenção.',
+      '',
+      'Nome: '+values.get('name'),
+      'Telefone: '+values.get('phone'),
+      'Cidade/bairro: '+values.get('location'),
+      'Serviço: '+values.get('service'),
+      'Descrição: '+(values.get('description')||'Não informada')
+    ].join('\n');
+    const url=whatsappUrl(message);
+    const status=document.getElementById('form-status');
+    if(!url){status.textContent='Não foi possível abrir o WhatsApp. Ligue para (63) 99264-8492.';return;}
+    status.textContent='Abrindo o WhatsApp para você revisar e enviar sua solicitação.';
+    window.open(url,'_blank','noopener,noreferrer');
+  });
+}
+function boot(){
+  document.getElementById('year').textContent=new Date().getFullYear();
+  document.title=data.seoTitle||defaults.seoTitle;
+  const description=document.querySelector('meta[name="description"]');
+  if(description)description.content=data.seoDescription||defaults.seoDescription;
+  renderServices();
+  setupContact();
+}
+document.addEventListener('DOMContentLoaded',boot);
