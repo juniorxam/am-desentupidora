@@ -1,3 +1,19 @@
+const serviceImages={
+  'Desentupidora':'/assets/esgoto.jpg',
+  'Encanador':'/assets/pia.jpg',
+  'Eletricista':null,
+  'Caça-vazamentos com geofone':'/assets/tubulacao.jpg',
+  'Limpeza de caixa d’água':null,
+  'Limpeza de placas solares':null
+};
+const defaultGallery=[
+  {title:'Desentupimento de esgoto',category:'Atendimento especializado',url:'/assets/esgoto.jpg'},
+  {title:'Desentupimento de vasos sanitários',category:'Serviço residencial',url:'/assets/vaso.jpg'},
+  {title:'Desentupimento de pias',category:'Serviço hidráulico',url:'/assets/pia.jpg'},
+  {title:'Limpeza de caixas de gordura',category:'Manutenção',url:'/assets/caixa-gordura.jpg'},
+  {title:'Manutenção de tubulações',category:'Serviço hidráulico',url:'/assets/tubulacao.jpg'},
+  {title:'Hidrojateamento',category:'Limpeza técnica',url:'/assets/hidrojateamento.jpg'}
+];
 const defaults={
   company:'AM Manutenção',
   hero:'Soluções completas para sua casa, empresa ou condomínio.',
@@ -46,7 +62,9 @@ function renderServices(){
   const grid=document.getElementById('service-grid');
   const select=document.getElementById('service-select');
   const services=(data.services||defaults.services).filter(item=>item.visible!==false).sort((a,b)=>(a.order||0)-(b.order||0));
-  grid.innerHTML=services.map((item,index)=>'<article class="service-card"><div class="service-card-top"><span class="service-number">'+String(index+1).padStart(2,'0')+'</span><span class="service-rule"></span></div><h3>'+safe(item.title)+'</h3><p>'+safe(item.description)+'</p><a href="#contato" class="service-link" data-service="'+safe(item.title)+'">Solicitar este serviço <span aria-hidden="true">↗</span></a></article>').join('');
+  grid.innerHTML=services.map((item,index)=>'<article class="service-card">'+(serviceImages[item.title]?'<img class="service-image" loading="lazy" src="'+serviceImages[item.title]+'" alt="'+safe(item.title)+'">':'')+'<div class="service-card-content"><div class="service-card-top"><span class="service-number">'+String(index+1).padStart(2,'0')+'</span><span class="service-rule"></span></div><h3>'+safe(item.title)+'</h3><p>'+safe(item.description)+'</p><a href="#contato" class="service-link" data-service="'+safe(item.title)+'">Solicitar este serviço <span aria-hidden="true">↗</span></a></div></article>').join('');
+  const gallery=document.getElementById('gallery-grid');
+  if(gallery)gallery.innerHTML=defaultGallery.map(item=>'<article class="gallery-photo"><img loading="lazy" src="'+item.url+'" alt="'+safe(item.title)+'"><div><h3>'+safe(item.title)+'</h3><p>'+safe(item.category)+'</p></div></article>').join('');
   select.innerHTML='<option value="">Selecione uma opção</option>'+services.map(item=>'<option value="'+safe(item.title)+'">'+safe(item.title)+'</option>').join('');
   grid.querySelectorAll('[data-service]').forEach(link=>link.addEventListener('click',()=>{
     select.value=link.dataset.service;
