@@ -65,6 +65,16 @@ function renderServices(){
   grid.innerHTML=services.map((item,index)=>'<article class="service-card">'+(serviceImages[item.title]?'<img class="service-image" loading="lazy" src="'+serviceImages[item.title]+'" alt="'+safe(item.title)+'">':'')+'<div class="service-card-content"><div class="service-card-top"><span class="service-number">'+String(index+1).padStart(2,'0')+'</span><span class="service-rule"></span></div><h3>'+safe(item.title)+'</h3><p>'+safe(item.description)+'</p><a href="#contato" class="service-link" data-service="'+safe(item.title)+'">Solicitar este serviço <span aria-hidden="true">↗</span></a></div></article>').join('');
   const gallery=document.getElementById('gallery-grid');
   if(gallery)gallery.innerHTML=defaultGallery.map(item=>'<article class="gallery-photo"><img loading="lazy" src="'+item.url+'" alt="'+safe(item.title)+'"><div><h3>'+safe(item.title)+'</h3><p>'+safe(item.category)+'</p></div></article>').join('');
+  const testimonialsSection=document.getElementById('depoimentos');
+  const testimonialsGrid=document.getElementById('testimonials-grid');
+  const testimonials=(data.testimonials||[]).filter(item=>item.visible!==false && (item.text||item.name));
+  if(testimonialsSection&&testimonialsGrid){
+    testimonialsSection.hidden=!testimonials.length;
+    testimonialsGrid.innerHTML=testimonials.map(item=>{
+      const rating=Math.max(1,Math.min(5,Number(item.rating)||5));
+      return '<article class="testimonial-card"><div class="testimonial-stars" aria-label="'+rating+' de 5 estrelas">'+('★'.repeat(rating))+'</div><blockquote>“'+safe(item.text||'')+'”</blockquote><p><strong>'+safe(item.name||'Cliente')+'</strong><small>Cliente da AM Manutenção</small></p></article>';
+    }).join('');
+  }
   select.innerHTML='<option value="">Selecione uma opção</option>'+services.map(item=>'<option value="'+safe(item.title)+'">'+safe(item.title)+'</option>').join('');
   grid.querySelectorAll('[data-service]').forEach(link=>link.addEventListener('click',()=>{
     select.value=link.dataset.service;
